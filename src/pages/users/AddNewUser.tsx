@@ -49,7 +49,7 @@ function AddNewUser() {
               {...register("email")}
               className="border p-2 rounded w-full"
             />
-            <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+            <div className="lg:grid grid-cols-2 gap-x-4 gap-y-2">
               <Input
                 label="Username"
                 error={errors.username?.message}
@@ -63,8 +63,14 @@ function AddNewUser() {
                 placeholder="Enter phone"
               />
             </div>
-            <div className="grid grid-cols-2 gap-x-4 gap-y-2">
-              <h2 className="col-span-2 font-semibold text-lg">Address</h2>
+            <Input
+              {...register("website")}
+              label="Website"
+              error={errors.website?.message}
+              placeholder="Enter website"
+            />
+            <div className="lg:grid grid-cols-2 gap-x-4 gap-y-2">
+              <h2 className="col-span-2 font-semibold text-lg mt-2">Address</h2>
               <Input
                 error={errors.street?.message}
                 label="Street"
@@ -91,8 +97,8 @@ function AddNewUser() {
                 placeholder="Enter zipcode"
               />
             </div>
-            <div className="grid grid-cols-2 gap-x-4 gap-y-2">
-              <h2 className="col-span-2 font-semibold text-lg">
+            <div className="lg:grid grid-cols-2 gap-x-4 gap-y-2">
+              <h2 className="col-span-2 font-semibold text-lg mt-2">
                 Company details
               </h2>
               <Input
@@ -107,19 +113,13 @@ function AddNewUser() {
                 error={errors.catchPhrase?.message}
                 placeholder="Enter username"
               />
-              <Input
-                {...register("website")}
-                label="Website"
-                error={errors.website?.message}
-                placeholder="Enter website"
-              />
-              <Input
-                {...register("bs")}
-                label="Description"
-                error={errors.bs?.message}
-                placeholder="Enter username"
-              />
             </div>
+            <Input
+              {...register("bs")}
+              label="Description"
+              error={errors.bs?.message}
+              placeholder="Enter username"
+            />
             <div className="flex justify-end gap-4 pt-8">
               <button
                 type="submit"

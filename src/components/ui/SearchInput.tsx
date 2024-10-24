@@ -24,7 +24,7 @@ const SearchInput = () => {
   }, 500);
 
   return (
-    <div className="mb-4 flex items-center w-96 border p-2 rounded-xl  gap-2">
+    <div className="mb-4 flex items-center w-full md:w-96 border p-2 rounded-xl  gap-2">
       <Search color="white" size={24} />
       <input
         type="search"
@@ -32,7 +32,7 @@ const SearchInput = () => {
           setSearchQuery(e.target.value);
           handleSearch(e.target.value);
         }}
-        className=" w-full bg-black/10 text-sm outline-none"
+        className="w-full bg-black/10 text-sm outline-none"
         placeholder="Search users by name or email"
         value={searchQuery}
       />
