@@ -1,3 +1,4 @@
+import { generateId } from "@/lib/utils";
 import { User } from "@/schemas/user";
 import { useState, useEffect } from "react";
 
@@ -27,7 +28,12 @@ const useUsers = () => {
     fetchUsers();
   }, []);
 
-  return { users, loading, error };
+  const addUser = (newUser: Omit<User, "id">) => {
+    const id = generateId(users);
+    const user: User = { id, ...newUser };
+    setUsers((prevUsers) => [...prevUsers, user]);
+  };
+  return { users, loading, error, addUser };
 };
 
 export { useUsers };

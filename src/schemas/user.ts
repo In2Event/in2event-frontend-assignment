@@ -1,58 +1,35 @@
 import { z } from "zod";
 
-const companySchema = z.object({
-  name: z.string({
-    required_error: "Company name is required",
-  }),
-  catchPhrase: z.string().optional(),
-  bs: z.string().optional(),
-});
-
-const addressSchema = z.object({
-  street: z.string(),
-  suite: z.string().optional(),
-  city: z.string(),
-  zipcode: z.string().min(5, {
-    message: "Zipcode is required and should have at least 4 characters.",
-  }),
-  geo: z.object({
-    lat: z.string().refine((val) => !isNaN(parseFloat(val)), {
-      message: "Latitude must be a valid number.",
-    }),
-    lng: z.string().refine((val) => !isNaN(parseFloat(val)), {
-      message: "Longitude must be a valid number.",
-    }),
-  }),
-});
-
-export const addUserSchema = z.object({
-  name: z.string({
-    required_error: "Name is required",
-  }),
-  username: z.string({
-    required_error: "Username is required",
-  }),
-  email: z
-    .string({ required_error: "Email is required." })
-    .email({ message: "Invalid email address." }),
-  address: addressSchema,
-  phone: z
-    .string()
-    .min(10, { message: "Phone number should have at least 10 characters." }),
-  website: z.string().url({ message: "Website must be a valid URL." }),
-  company: companySchema,
-});
-
-export type AddUser = z.infer<typeof addUserSchema>;
-
 export const UserSchema = z.object({
   id: z.number(),
-  name: z.string(),
-  username: z.string(),
+  name: z.string().min(1, "Name is required."),
+  username: z.string().min(1, "Username is required."),
   email: z.string().email(),
-  address: addressSchema,
+  phone: z.string().min(10, "Phone should have at least 10 characters."),
+  address: z.object({
+    street: z.string().min(1, "Street is required."),
+    suite: z.string().optional(),
+    city: z.string().min(1, "City is required."),
+    zipcode: z.string().optional(),
+    geo: z
+      .object({
+        lat: z.string().refine((val) => !isNaN(parseFloat(val)), {
+          message: "Latitude must be a valid number.",
+        }),
+        lng: z.string().refine((val) => !isNaN(parseFloat(val)), {
+          message: "Longitude must be a valid number.",
+        }),
+      })
+      .optional(),
+  }),
   website: z.string().url({ message: "Website must be a valid URL." }),
-  company: companySchema,
+  company: z.object({
+    name: z.string().min(1, "Company Name is required."),
+    catchPhrase: z.string().optional(),
+    bs: z.string().optional(),
+  }),
 });
 
 export type User = z.infer<typeof UserSchema>;
+
+export const AddUserSchema = UserSchema.omit({ id: true });

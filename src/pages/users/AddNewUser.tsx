@@ -1,25 +1,29 @@
 "use client";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-
-import { addUserSchema } from "@/schemas/user";
+import { AddUserSchema, User } from "@/schemas/user";
 import Input from "@/components/ui/Input";
 import Modal from "@/components/ui/Modal";
+import { useUsers } from "@/services/use-users";
 
 function AddNewUser() {
   const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
+  const { addUser, users } = useUsers();
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
-  } = useForm({
-    resolver: zodResolver(addUserSchema),
+  } = useForm<Omit<User, "id">>({
+    resolver: zodResolver(AddUserSchema),
   });
 
-  const onSubmit = async (data: any) => {
-    console.log("SUCCESS", data);
+  const onSubmit: SubmitHandler<Omit<User, "id">> = async (data) => {
+    await addUser(data);
+    setIsAddUserModalOpen(false);
+    reset();
   };
 
   return (
@@ -39,9 +43,9 @@ function AddNewUser() {
         >
           <form className="space-y-2" onSubmit={handleSubmit(onSubmit)}>
             <Input
-              {...register("name")}
               error={errors.name?.message}
               label="Name"
+              {...register("name")}
             />
             <Input
               error={errors.email?.message}
@@ -72,27 +76,27 @@ function AddNewUser() {
             <div className="lg:grid grid-cols-2 gap-x-4 gap-y-2">
               <h2 className="col-span-2 font-semibold text-lg mt-2">Address</h2>
               <Input
-                error={errors.street?.message}
+                error={errors.address?.street?.message}
                 label="Street"
-                {...register("street")}
+                {...register("address.street")}
                 placeholder="Enter street"
                 className="border p-2 rounded w-full"
               />
               <Input
-                {...register("suite")}
+                {...register("address.suite")}
                 label="Suite"
-                error={errors.suite?.message}
+                error={errors.address?.suite?.message}
                 placeholder="Enter suite"
               />
               <Input
                 label="City"
-                {...register("city")}
-                error={errors.city?.message}
+                {...register("address.city")}
+                error={errors.address?.city?.message}
                 className="border p-2 rounded w-full"
               />
               <Input
-                {...register("zipcode")}
-                error={errors.zipcode?.message}
+                {...register("address.zipcode")}
+                error={errors.address?.zipcode?.message}
                 label="Zipcode"
                 placeholder="Enter zipcode"
               />
@@ -103,23 +107,29 @@ function AddNewUser() {
               </h2>
               <Input
                 label="Company name"
-                error={errors["company.name"]?.message}
+                type="text"
+                error={errors.company?.name?.message}
                 {...register("company.name")}
                 className="border p-2 rounded w-full"
               />
               <Input
-                {...register("catchPhrase")}
+                type="text"
+                {...register("company.catchPhrase")}
                 label="Catch Phrase"
-                error={errors.catchPhrase?.message}
+                error={errors.company?.catchPhrase?.message}
                 placeholder="Enter username"
               />
             </div>
-            <Input
-              {...register("bs")}
-              label="Description"
-              error={errors.bs?.message}
-              placeholder="Enter username"
-            />
+            <div>
+              <label className="block mb-1">Description</label>
+              <textarea
+                className="outline-none border px-3 py-2 w-full rounded-xl"
+                {...register("company.bs")}
+              />
+              <p className="text-red-500 mt-1 text-xs">
+                {errors.company?.bs?.message}
+              </p>
+            </div>
             <div className="flex justify-end gap-4 pt-8">
               <button
                 type="submit"

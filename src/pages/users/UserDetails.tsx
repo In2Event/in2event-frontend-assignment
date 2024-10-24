@@ -16,7 +16,7 @@ function UserDetailsModal({ user }: { user: User | null | undefined }) {
       <UserItem tag="Catch phrase" value={company.catchPhrase} />
       <UserItem tag="Description" value={company.bs} />
       <p className="font-semibold text-lg mt-4">Address</p>
-      <div className="lg:grid grid-cols-[1fr_2fr] gap-x-4 gap-y-2">
+      <div className="lg:grid grid-cols-2 gap-x-4 gap-y-2">
         <UserItem tag="Street" value={address.street} />
         <UserItem tag="City" value={address.city} />
         <UserItem tag="Zipcode" value={address.zipcode} />
