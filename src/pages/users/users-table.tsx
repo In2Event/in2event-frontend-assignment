@@ -64,7 +64,14 @@ export const UsersTable = () => {
               }}
             >
               <TableCell className="font-medium">{user.id}</TableCell>
-              <TableCell>{user.name}</TableCell>
+              <TableCell className="flex gap-2 items-center">
+                <img
+                  src="/image/pic.jpg"
+                  alt=""
+                  className="w-8 h-8 rounded-full"
+                />
+                {user.name}
+              </TableCell>
               <TableCell>{user.username}</TableCell>
               <TableCell>{user.email}</TableCell>
             </TableRow>

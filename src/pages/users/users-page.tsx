@@ -4,7 +4,7 @@ import SearchInput from "@/components/ui/SearchInput";
 
 export default function UsersPage() {
   return (
-    <div className="container p-4">
+    <div className=" p-8">
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-bold mb-4">Users List</h1>
         <AddNewUser />
