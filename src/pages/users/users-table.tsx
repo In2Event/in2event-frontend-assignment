@@ -13,6 +13,8 @@ import { useUsers } from "@/services/use-users";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { User } from "@/schemas/user";
+import Modal from "@/components/ui/Modal";
+import UserDetailsModal from "./UserDetails";
 
 export const UsersTable = () => {
   const searchParams = useSearchParams();
@@ -68,6 +70,11 @@ export const UsersTable = () => {
           ))}
         </TableBody>
       </Table>
+      {userModal ? (
+        <Modal title="User Information" onClose={() => setUserModal(false)}>
+          <UserDetailsModal user={selectedUser} />
+        </Modal>
+      ) : null}
     </>
   );
 };
