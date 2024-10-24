@@ -1,5 +1,6 @@
-import React, { Dispatch, ReactNode } from "react";
+import React, { Dispatch, ReactNode, useRef } from "react";
 import { CircleX } from "lucide-react";
+import { useClickOutside } from "@/hooks/useClickOutside";
 
 const Modal = ({
   title,
@@ -10,9 +11,15 @@ const Modal = ({
   children: ReactNode;
   onClose: () => void;
 }) => {
+  const modalRef = useRef(null);
+  useClickOutside(modalRef, onClose);
+
   return (
     <div className="fixed inset-0 flex justify-center items-center bg-black/50 z-30 ">
-      <div className="my-8 bg-white px-6 py-8 rounded-lg w-11/12 md:w-2/3 lg:w-1/2 text-black relative">
+      <div
+        ref={modalRef}
+        className="my-8 bg-white px-6 py-8 rounded-lg w-11/12 md:w-2/3 lg:w-1/2 text-black relative"
+      >
         <h2 className="text-xl  font-bold text-xl mb-4">{title}</h2>
         <CircleX
           size={24}

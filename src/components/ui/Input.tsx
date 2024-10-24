@@ -9,7 +9,10 @@ const Input = ({ error, label, className, ...props }: InputPropType) => {
       <input
         {...props}
         min={0}
-        className={cn("border px-3 py-2 rounded-xl w-full outline-none")}
+        className={cn(
+          "border px-3 py-2 rounded-xl w-full outline-none",
+          className
+        )}
       />
       <p className="text-red-500 mt-1 text-xs">{error}</p>
     </div>
