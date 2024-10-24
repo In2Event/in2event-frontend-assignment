@@ -9,19 +9,20 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useUsers } from "@/services/use-users";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { User } from "@/schemas/user";
 import Modal from "@/components/ui/Modal";
 import UserDetailsModal from "./UserDetails";
+import { useAPI } from "@/context/apiContext";
 
 export const UsersTable = () => {
   const searchParams = useSearchParams();
   const query = searchParams?.get("query")?.toString() || "";
-  const { users, loading, error } = useUsers();
   const [selectedUser, setselectedUser] = useState<User | null>();
   const [userModal, setUserModal] = useState(false);
+
+  const { users, loading, error } = useAPI();
 
   const filteredUsers = users.filter(
     (user) =>

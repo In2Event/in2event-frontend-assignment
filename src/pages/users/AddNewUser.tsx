@@ -5,11 +5,12 @@ import { useState } from "react";
 import { AddUserSchema, User } from "@/schemas/user";
 import Input from "@/components/ui/Input";
 import Modal from "@/components/ui/Modal";
-import { useUsers } from "@/services/use-users";
+import { useAPI } from "@/context/apiContext";
+import { generateId } from "@/lib/utils";
 
 function AddNewUser() {
   const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
-  const { addUser, users } = useUsers();
+  const { setUsers, users } = useAPI();
 
   const {
     register,
@@ -21,7 +22,9 @@ function AddNewUser() {
   });
 
   const onSubmit: SubmitHandler<Omit<User, "id">> = async (data) => {
-    await addUser(data);
+    const id = generateId(users);
+    const user: User = { id, ...data };
+    setUsers((prevUsers) => [...prevUsers, user]);
     setIsAddUserModalOpen(false);
     reset();
   };

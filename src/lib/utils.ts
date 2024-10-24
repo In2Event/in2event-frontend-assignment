@@ -6,4 +6,4 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const generateId = (data: Array<any>) =>
-  data.length > 0 ? Math.max(...data.map((n) => Number(n.id))) : 0;
+  data.length > 0 ? Math.max(...data.map((n) => Number(n.id) + 1)) : 0;

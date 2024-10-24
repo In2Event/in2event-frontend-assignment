@@ -1,6 +1,6 @@
 import { generateId } from "@/lib/utils";
 import { User } from "@/schemas/user";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 const useUsers = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -28,11 +28,15 @@ const useUsers = () => {
     fetchUsers();
   }, []);
 
-  const addUser = (newUser: Omit<User, "id">) => {
-    const id = generateId(users);
-    const user: User = { id, ...newUser };
-    setUsers((prevUsers) => [...prevUsers, user]);
-  };
+  const addUser = useCallback(
+    (newUser: Omit<User, "id">) => {
+      const id = generateId(users);
+      const user: User = { id, ...newUser };
+      setUsers((prevUsers) => [...prevUsers, user]);
+    },
+    [users]
+  );
+
   return { users, loading, error, addUser };
 };
 
