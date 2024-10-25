@@ -33,3 +33,5 @@ export const UserSchema = z.object({
 export type User = z.infer<typeof UserSchema>;
 
 export const AddUserSchema = UserSchema.omit({ id: true });
+
+export type SortableKeys = keyof User;
