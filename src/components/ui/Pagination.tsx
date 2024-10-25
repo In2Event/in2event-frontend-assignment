@@ -5,27 +5,28 @@ export default function Pagination({
   usersPerPage,
   totalPosts,
   currentPage,
-  setCurrentPage,setUsersPerPage
+  setCurrentPage,
+  setUsersPerPage,
 }: {
   usersPerPage: number;
   totalPosts: number;
   currentPage: number;
-  setCurrentPage: Dispatch<SetStateAction<number>>;setUsersPerPage: Dispatch<SetStateAction<number>>
+  setCurrentPage: Dispatch<SetStateAction<number>>;
+  setUsersPerPage: Dispatch<SetStateAction<number>>;
 }) {
   const paginateFront = () => setCurrentPage(currentPage + 1);
   const paginateBack = () => setCurrentPage(currentPage - 1);
 
   const visiblePages = 10;
+  const totalPages = Math.ceil(totalPosts / usersPerPage);
 
   const generatePageNumbers = () => {
     const currentPageNumber = currentPage;
     const pageNumbers = [];
-
     const startPage = Math.max(
       1,
       currentPageNumber - Math.floor(visiblePages / 2)
     );
-    const totalPages = Math.ceil(totalPosts / usersPerPage);
     const endPage = Math.min(totalPages, startPage + visiblePages - 1);
 
     for (let i = startPage; i <= endPage; i++) {
@@ -35,11 +36,11 @@ export default function Pagination({
     return pageNumbers;
   };
 
-  const options = [5, 10,20, 30, 50, 100];
+  const options = [5, 10, 20, 30, 50, 100];
 
   return (
     <div className="flex items-center gap-4">
-      <div className='flex gap-2'>
+      <div className="flex gap-2">
         <select
           value={usersPerPage}
           onChange={(e) => setUsersPerPage?.(parseInt(e.target.value))}
@@ -69,6 +70,7 @@ export default function Pagination({
       <p className="flex-grow" />
       <ArrowLeftIcon
         onClick={() => {
+          if (currentPage == 1) return;
           paginateBack();
         }}
         className="bg-white rounded"
@@ -90,6 +92,7 @@ export default function Pagination({
       </div>
       <ArrowRightIcon
         onClick={() => {
+          if (currentPage >= totalPages) return;
           paginateFront();
         }}
         color="black"
