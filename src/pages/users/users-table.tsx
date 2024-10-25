@@ -15,16 +15,24 @@ import { User } from "@/schemas/user";
 import Modal from "@/components/ui/Modal";
 import UserDetailsModal from "./UserDetails";
 import { useAPI } from "@/context/apiContext";
+import Pagination from "@/components/ui/Pagination";
+import Image from "next/image";
 
 export const UsersTable = () => {
   const searchParams = useSearchParams();
   const query = searchParams?.get("query")?.toString() || "";
   const [selectedUser, setselectedUser] = useState<User | null>();
   const [userModal, setUserModal] = useState(false);
-
   const { users, loading, error } = useAPI();
 
-  const filteredUsers = users.filter(
+  const [currentPage, setCurrentPage] = useState(1);
+  const [usersPerPage, setUsersPerPage] = useState(10);
+  const indexOfLastUser = currentPage * usersPerPage;
+  const indexOfFirstPost = indexOfLastUser - usersPerPage;
+  const currentUsers = users.slice(indexOfFirstPost, indexOfLastUser);
+
+ 
+  const filteredUsers = currentUsers.filter(
     (user) =>
       user.name.toLowerCase().includes(query.toLowerCase()) ||
       user.email.toLowerCase().includes(query.toLowerCase())
@@ -65,10 +73,12 @@ export const UsersTable = () => {
             >
               <TableCell className="font-medium">{user.id}</TableCell>
               <TableCell className="flex gap-2 items-center">
-                <img
+                <Image
                   src="/image/pic.jpg"
                   alt=""
-                  className="w-8 h-8 rounded-full"
+                  width={32}
+                  height={32}
+                  className=" rounded-full"
                 />
                 {user.name}
               </TableCell>
@@ -78,6 +88,11 @@ export const UsersTable = () => {
           ))}
         </TableBody>
       </Table>
+      <Pagination setUsersPerPage={setUsersPerPage}
+        usersPerPage={usersPerPage}
+        totalPosts={users.length}
+        currentPage={currentPage} setCurrentPage={setCurrentPage}
+      />
       {userModal ? (
         <Modal title="User Information" onClose={() => setUserModal(false)}>
           <UserDetailsModal user={selectedUser} />
