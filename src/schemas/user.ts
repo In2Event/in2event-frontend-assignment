@@ -26,7 +26,7 @@ export const UserSchema = z.object({
   company: z.object({
     name: z.string().min(1, "Company Name is required."),
     catchPhrase: z.string().optional(),
-    bs: z.string().optional(),
+    bs: z.string().min(1, " Write brief description"),
   }),
 });
 

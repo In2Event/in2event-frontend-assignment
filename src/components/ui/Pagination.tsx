@@ -39,7 +39,7 @@ export default function Pagination({
   const options = [5, 10, 20, 30, 50, 100];
 
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex flex-col md:flex-row md:items-center gap-4 mt-4">
       <div className="flex gap-2">
         <select
           value={usersPerPage}
@@ -68,36 +68,37 @@ export default function Pagination({
         </p>
       </div>
       <p className="flex-grow" />
-      <ArrowLeftIcon
-        onClick={() => {
-          if (currentPage == 1) return;
-          paginateBack();
-        }}
-        className="bg-white rounded"
-        color="black"
-      />
-
-      <div className={`flex  gap-4 items-center space-x-1`}>
-        {generatePageNumbers().map((value) => (
-          <button
-            className={`p-1 rounded ${
-              value === currentPage ? 'bg-white text-black' : ''
-            }`}
-            key={`table-pagination-page-${value}`}
-            onClick={() => setCurrentPage(value)}
-          >
-            {value}
-          </button>
-        ))}
+      <div className="flex items-center gap-4">
+        <ArrowLeftIcon
+          onClick={() => {
+            if (currentPage == 1) return;
+            paginateBack();
+          }}
+          className="bg-white rounded"
+          color="black"
+        />
+        <div className={`flex  gap-4 items-center space-x-1`}>
+          {generatePageNumbers().map((value) => (
+            <button
+              className={`p-1 rounded ${
+                value === currentPage ? 'bg-white text-black' : ''
+              }`}
+              key={`table-pagination-page-${value}`}
+              onClick={() => setCurrentPage(value)}
+            >
+              {value}
+            </button>
+          ))}
+        </div>
+        <ArrowRightIcon
+          onClick={() => {
+            if (currentPage >= totalPages) return;
+            paginateFront();
+          }}
+          color="black"
+          className="bg-white rounded"
+        />
       </div>
-      <ArrowRightIcon
-        onClick={() => {
-          if (currentPage >= totalPages) return;
-          paginateFront();
-        }}
-        color="black"
-        className="bg-white rounded"
-      />
     </div>
   );
 }

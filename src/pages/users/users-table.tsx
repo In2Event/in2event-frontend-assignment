@@ -43,7 +43,7 @@ export const UsersTable = () => {
   );
 
   if (loading) {
-    return <LoadingSkeleton/>;
+    return <LoadingSkeleton />;
   }
 
   if (error) {
@@ -81,14 +81,15 @@ export const UsersTable = () => {
             <TableHead onClick={() => handleSort('id')}>
               <div className="flex items-center gap-2">
                 ID
-                <span className='flex'>
+                <span className="flex">
                   <MoveUpIcon
                     size={'1rem'}
                     color={
                       sortBy === 'id' && sortOrder === 'asc' ? 'white' : 'gray'
                     }
                   />
-                  <MoveDownIcon  className='-ml-2'
+                  <MoveDownIcon
+                    className="-ml-2"
                     size={'1rem'}
                     color={
                       sortBy === 'id' && sortOrder === 'desc' ? 'white' : 'gray'
@@ -109,7 +110,8 @@ export const UsersTable = () => {
                     sortBy === 'name' && sortOrder === 'asc' ? 'white' : 'gray'
                   }
                 />
-                <MoveDownIcon  className='-ml-2'
+                <MoveDownIcon
+                  className="-ml-2"
                   size={'1rem'}
                   color={
                     sortBy === 'name' && sortOrder === 'desc' ? 'white' : 'gray'
@@ -147,13 +149,15 @@ export const UsersTable = () => {
           ))}
         </TableBody>
       </Table>
-      <Pagination
-        setUsersPerPage={setUsersPerPage}
-        usersPerPage={usersPerPage}
-        totalPosts={users.length}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-      />
+      {sortedData.length > 0 ? (
+        <Pagination
+          setUsersPerPage={setUsersPerPage}
+          usersPerPage={usersPerPage}
+          totalPosts={users.length}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      ) : null}
       {userModal ? (
         <Modal title="User Information" onClose={() => setUserModal(false)}>
           <UserDetailsModal user={selectedUser} />
