@@ -18,6 +18,7 @@ import UserDetailsModal from './UserDetails';
 import { useAPI } from '@/context/apiContext';
 import Pagination from '@/components/ui/Pagination';
 import Image from 'next/image';
+import LoadingSkeleton from '@/components/ui/LoadingSkeleton';
 
 export const UsersTable = () => {
   const searchParams = useSearchParams();
@@ -42,7 +43,7 @@ export const UsersTable = () => {
   );
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <LoadingSkeleton/>;
   }
 
   if (error) {
