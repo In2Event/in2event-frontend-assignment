@@ -1,18 +1,11 @@
-"use client";
-import React, { useContext, useState, useEffect, createContext } from "react";
-import { User } from "@/schemas/user";
+'use client';
+import React, { useContext, useState, useEffect, createContext, ReactNode } from 'react';
+import { User } from '@/schemas/user';
+import { IContext } from '@/types';
 
-const APIContext = createContext<
-  | {
-      users: User[];
-      setUsers: React.Dispatch<React.SetStateAction<User[]>>;
-      loading: boolean;
-      error: string | null;
-    }
-  | undefined
->(undefined);
+export const APIContext = createContext<IContext | undefined>(undefined);
 
-export function APIContextProvider({ children }: { children: any }) {
+export function APIContextProvider({ children }: { children: ReactNode }) {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -21,15 +14,15 @@ export function APIContextProvider({ children }: { children: any }) {
     const fetchUsers = async () => {
       try {
         const response = await fetch(
-          "https://jsonplaceholder.typicode.com/users"
+          'https://jsonplaceholder.typicode.com/users'
         );
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          throw new Error('Network response was not ok');
         }
         const data = await response.json();
         setUsers(data);
       } catch {
-        setError("Failed to fetch users");
+        setError('Failed to fetch users');
       } finally {
         setLoading(false);
       }
@@ -54,7 +47,7 @@ export function APIContextProvider({ children }: { children: any }) {
 export function useAPI() {
   const context = useContext(APIContext);
   if (context === undefined) {
-    throw new Error("Context must be used within a Provider");
+    throw new Error('Context must be used within a Provider');
   }
   return context;
 }

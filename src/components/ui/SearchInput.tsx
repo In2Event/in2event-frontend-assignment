@@ -26,7 +26,8 @@ const SearchInput = () => {
   return (
     <div className="mb-4 flex items-center w-full md:w-96 border p-2 rounded-xl  gap-2">
       <Search color="white" size={24} />
-      <input
+      <input   aria-label="Search"
+
         type="search"
         onChange={(e) => {
           setSearchQuery(e.target.value);
